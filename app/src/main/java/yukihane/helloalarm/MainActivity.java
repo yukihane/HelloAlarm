@@ -29,7 +29,9 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "アラームをセットします", Toast.LENGTH_SHORT).show();
+                String text = "アラームをセットします";
+                LOGGER.info(text);
+                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
                 MyAlarm.set(getApplicationContext());
             }
         });
@@ -38,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "アラームをキャンセルします", Toast.LENGTH_SHORT).show();
+                String text = "アラームをキャンセルします";
+                LOGGER.info(text);
+                Toast.makeText(MainActivity.this, text, Toast.LENGTH_SHORT).show();
                 MyAlarm.cancel(getApplicationContext());
             }
         });
