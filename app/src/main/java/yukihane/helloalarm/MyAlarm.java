@@ -28,7 +28,7 @@ public class MyAlarm {
         calendar.add(Calendar.SECOND, 30);
 
 
-        alarmMgr.setInexactRepeating(AlarmManager.RTC_WAKEUP,
+        alarmMgr.setRepeating(AlarmManager.RTC_WAKEUP,
                 calendar.getTimeInMillis(), 30 * 1000, alarmIntent);
 
 
