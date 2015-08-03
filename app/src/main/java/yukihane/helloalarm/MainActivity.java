@@ -9,11 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(MainActivity.class);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "アラームをセットします", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "アラームをセットします", Toast.LENGTH_SHORT).show();
                 MyAlarm.set(getApplicationContext());
             }
         });
@@ -33,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
         stopButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(MainActivity.this, "アラームをキャンセルします", Toast.LENGTH_SHORT);
+                Toast.makeText(MainActivity.this, "アラームをキャンセルします", Toast.LENGTH_SHORT).show();
                 MyAlarm.cancel(getApplicationContext());
             }
         });
@@ -48,25 +53,35 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void exportLog() {
-        File filesDir = getFilesDir();
-        File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        Toast.makeText(this, downloadDir.toString(), Toast.LENGTH_LONG);
+        final File filesDir = getFilesDir();
+        final File downloadDir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        Toast.makeText(this, downloadDir.toString(), Toast.LENGTH_LONG).show();
 
-        File[] logfiles = filesDir.listFiles(new FilenameFilter() {
+        Runnable runnable = new Runnable() {
             @Override
-            public boolean accept(File file, String s) {
-                if (s.endsWith("log") || s.endsWith("log.txt")) {
-                    return true;
-                }
-                return false;
-            }
-        });
+            public void run() {
+                File[] logfiles = filesDir.listFiles(new FilenameFilter() {
+                    @Override
+                    public boolean accept(File file, String s) {
+                        LOGGER.debug("file: {} {}", file, s);
+                        if (s.endsWith("log") || s.endsWith("log.txt")) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
 
-        for (File f : logfiles) {
-            try {
-                Utils.copy(f, downloadDir);
-            } catch (IOException e) {
+                for (File f : logfiles) {
+                    try {
+                        LOGGER.debug("copy file: {}", f);
+                        Utils.copy(f, downloadDir);
+                    } catch (IOException e) {
+                        LOGGER.error("copy error", e);
+                    }
+                }
             }
-        }
+        };
+
+        new Thread(runnable).start();
     }
 }
