@@ -30,6 +30,21 @@
       <intent-filter>
         <action android:name="android.intent.action.BOOT_COMPLETED"></action>
       </intent-filter>
+
+      <intent-filter>
+        <action android:name="android.intent.action.PACKAGE_REPLACED"/>
+        <!--
+                <data
+                  android:ssp="yukihane.helloalarm"
+                  android:scheme="package"/>
+        -->
+      </intent-filter>
+
+      <intent-filter>
+        <action android:name="android.intent.action.TIMEZONE_CHANGED"/>
+        <action android:name="android.intent.action.TIME_SET"/>
+        <action android:name="android.intent.action.DATE_CHANGED"/>
+      </intent-filter>
     </receiver>
 
     <service android:name=".MyService"/>
