@@ -26,5 +26,6 @@
 
   <root level="TRACE">
     <appender-ref ref="LOGCAT"/>
+    <appender-ref ref="FILE"/>
   </root>
 </configuration>
