@@ -6,16 +6,19 @@
   android:orientation="vertical">
 
   <Button
+    android:id="@+id/startBtn"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="start alarm"/>
 
   <Button
+    android:id="@+id/stopBtn"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="stop alarm"/>
 
   <Button
+    android:id="@+id/logBtn"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="output logfile"/>
